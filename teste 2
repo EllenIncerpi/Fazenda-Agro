@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fazenda Incerpi - Landing Page & Sistema Interno</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Navbar */
+    header {
+      background: #008000;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      user-select: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+    }
+
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background-color: #D2691E;
+      color: white;
+      outline: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 6rem 2rem 8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      user-select: none;
+      box-shadow: inset 0 0 100px #00000099;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 6px #000000cc;
+      letter-spacing: 0.05em;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto;
+      text-shadow: 1px 1px 4px #000000cc;
+    }
+
+    /* Processo de Produção */
+    .process {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .process h2 {
+      font-size: 2rem;
+      color: #D2691E;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .step {
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px #ddd;
+      width: 280px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+
+    .step:hover,
+    .step:focus-within {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 18px #c96a27aa;
+    }
+
+    .step img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+
+    .step h3 {
+      margin-bottom: 0.5rem;
+      color: #008000;
+      font-weight: 700;
+    }
+
+    .step p {
+      font-size: 1rem;
+      color: #333333;
+      text-align: left;
+    }
+
+    /* Galeria */
+    .gallery {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto 2rem;
+    }
+
+    .gallery h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #D2691E;
+      font-weight: 700;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 1.5rem;
+      user-select: none;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px #ccc;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .gallery-grid img.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Rodapé */
+    footer {
+      background-color: #008000;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      user-select: none;
+      font-size: 0.875rem;
+    }
+
+    footer .social-icons {
+      margin: 0.5rem 0 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    footer .social-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    footer .social-icons a:hover,
+    footer .social-icons a:focus {
+      color: #D2691E;
+      outline: none;
+    }
+
+    /* Área Restrita (Login and Internal System) */
+    #restricted-area {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 2rem auto 4rem;
+      background: #f5f5f5;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px #ddd;
+      display: none;
+      flex-direction: column;
+      gap: 2rem;
+      user-select: none;
+    }
+
+    #restricted-area.active {
+      display: flex;
+    }
+
+    /* Login Form */
+    #login-form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px #ccc;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    #login-form h2 {
+      margin-bottom: 1rem;
+      color: #008000;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    #login-form label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      display: block;
+      color: #333;
+    }
+
+    #login-form input {
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    #login-form input:focus {
+      outline: none;
+      border-color: #D2691E;
+      box-shadow: 0 0 6px #D2691Eaa;
+    }
+
+    #login-form button {
+      background-color: #D2691E;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    #login-form button:hover,
+    #login-form button:focus {
+      background-color: #a35311;
+      outline: none;
+    }
+
+    #login-error {
+      color: #D2691E;
+      font-weight: 700;
+      text-align: center;
+      margin-top: -0.5rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* Sistema Interno Main Panel */
+    #system-panel {
+      display: none;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    #system-panel.active {
+      display: flex;
+    }
+
+    /* Sistema: Tarefas */
+    #task-form {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px #ccc;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      user-select: text;
+    }
+
+    #task-form h3 {
+      text-align: center;
+      color: #008000;
+      font-weight: 700;
+    }
+
+    #task-form label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+
+    #task-form input,
+    #task-form select,
+    #task-form textarea {
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    #task-form input:focus,
+    #task-form select:focus,
+    #task-form textarea:focus {
+      outline: none;
+      border-color: #D2691E;
+      box-shadow: 0 0 6px #D2691Eaa;
+    }
+
+    #task-form button {
+      align-self: center;
+      margin-top: 1rem;
+      background-color: #008000;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #task-form button:hover,
+    #task-form button:focus {
+      background-color: #005000;
+      outline: none;
+    }
+
+    /* Lista de Tarefas */
+    #task-list {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px #ccc;
+      padding: 1rem 2rem;
+      user-select: text;
+    }
+
+    #task-list h3 {
+      color: #D2691E;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead {
+      background: #008000;
+      color: white;
+      user-select: none;
+    }
+
+    th, td {
+      padding: 0.65rem 0.8rem;
+      border: 1px solid #ccc;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #D8E8D8;
+    }
+
+    /* Quadras (mapa simplificado) */
+    #plots-map {
+      max-width: 900px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      user-select: none;
+    }
+
+    .plot {
+      padding: 1.25rem;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 6px 12px #bbb;
+      transition: background-color 0.4s ease, transform 0.3s ease;
+      user-select: none;
+      outline-offset: 2px;
+    }
+
+    .plot.gray {
+      background-color: #DCDCDC;
+      color: #555;
+      box-shadow: 0 6px 12px #bbb inset;
+    }
+
+    .plot.orange {
+      background-color: #D2691E;
+    }
+
+    .plot.green {
+      background-color: #008000;
+    }
+
+    .plot:hover,
+    .plot:focus {
+      transform: scale(1.05);
+      outline: 2px solid #D2691E;
+      outline-offset: 4px;
+    }
+
+    /* Progress Update Modal */
+    #progress-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      user-select: none;
+    }
+
+    #progress-modal.active {
+      display: flex;
+    }
+
+    #progress-modal-content {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 24px #333a;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    #progress-modal-content h3 {
+      color: #008000;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    #progress-modal-content label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    #progress-modal-content select,
+    #progress-modal-content input {
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+
+    #progress-modal-content select:focus,
+    #progress-modal-content input:focus {
+      outline: none;
+      border-color: #D2691E;
+      box-shadow: 0 0 6px #D2691Eaa;
+    }
+
+    #progress-modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    #progress-modal-buttons button {
+      flex: 1;
+      padding: 0.5rem 0;
+      border-radius: 8px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #progress-save-button {
+      background-color: #008000;
+      color: white;
+    }
+
+    #progress-save-button:hover,
+    #progress-save-button:focus {
+      background-color: #005000;
+      outline: none;
+    }
+
+    #progress-cancel-button {
+      background-color: #ccc;
+      color: #555;
+    }
+
+    #progress-cancel-button:hover,
+    #progress-cancel-button:focus {
+      background-color: #999;
+      outline: none;
+    }
+
+    /* Responsive and Misc */
+    @media screen and (max-width: 700px) {
+      .steps {
+        flex-direction: column;
+      }
+
+      nav ul {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" tabindex="0">Família Incerpi</div>
+    <nav aria-label="Menu principal">
+      <ul id="main-menu">
+        <li><a href="#home" tabindex="0">Home</a></li>
+        <li><a href="#process" tabindex="0">Processo</a></li>
+        <li><a href="#gallery" tabindex="0">Galeria</a></li>
+        <li><a href="#about" tabindex="0">Sobre</a></li>
+        <li><a href="#contact" tabindex="0">Contato</a></li>
+        <li><a href="#" id="login-link" tabindex="0">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home" role="img" aria-label="Plantação de laranjas">
+      <h1>Da nossa terra para sua mesa</h1>
+      <p>Produzimos laranjas com cuidado artesanal e dedicação familiar para você saborear a qualidade direto da Fazenda Incerpi.</p>
+    </section>
+
+    <section class="process" id="process" tabindex="0" aria-label="Processo de produção das laranjas">
+      <h2>Como tudo acontece</h2>
+      <div class="steps">
+        <article class="step" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&q=80" alt="Colheita de laranjas" loading="lazy" />
+          <h3>Colheita</h3>
+          <p>Selecionamos cuidadosamente as melhores laranjas para garantir sabor e qualidade desde o início.</p>
+        </article>
+        <article class="step" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1516528387618-afa9c3caf862?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&q=80" alt="Produção sustentável" loading="lazy" />
+          <h3>Produção</h3>
+          <p>Práticas sustentáveis e responsabilidade ambiental para preservar nossa terra e gerar frutos saudáveis.</p>
+        </article>
+        <article class="step" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1564501046824-7f52c94e6708?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&q=80" alt="Distribuição das laranjas" loading="lazy" />
+          <h3>Distribuição</h3>
+          <p>Entregamos a laranja com qualidade e rapidez, para que chegue fresca e saborosa na sua mesa.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallery" tabindex="0" aria-label="Galeria de imagens da fazenda">
+      <h2>Galeria</h2>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Imagens carregadas via JavaScript -->
+      </div>
+    </section>
+
+    <section id="about" tabindex="0" style="max-width:900px; margin: 2rem auto; padding: 0 2rem;">
+      <h2>Sobre a Fazenda Incerpi</h2>
+      <p>
+        A Fazenda Incerpi é uma tradição familiar que cultiva com amor e sustentabilidade, valorizando cada etapa do processo para levar a melhor laranja até você.
+      </p>
+    </section>
+
+    <section id="contact" tabindex="0" style="max-width:900px; margin: 2rem auto 6rem; padding: 0 2rem;">
+      <h2>Contato</h2>
+      <p>Telefone: (XX) XXXX-XXXX</p>
+      <p>Email: contato@incerpi.com.br</p>
+      <p>Endereço: Fazenda Incerpi, Zona Rural - Brasil</p>
+    </section>
+
+    <!-- Área Restrita -->
+    <section id="restricted-area" aria-label="Área restrita de funcionários">
+      <form id="login-form" aria-label="Formulário de login para funcionários" novalidate>
+        <h2>Login - Funcionários</h2>
+        <label for="username">Usuário</label>
+        <input id="username" name="username" type="text" required autocomplete="username" aria-required="true" />
+        <label for="password">Senha</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password" aria-required="true" />
+        <button type="submit">Entrar</button>
+        <p id="login-error" role="alert" aria-live="assertive"></p>
+      </form>
+
+      <div id="system-panel" aria-live="polite">
+        <h2>Sistema Interno - Gerenciamento de Tarefas</h2>
+
+        <!-- Formulário cadastro tarefa -->
+        <form id="task-form" aria-label="Cadastro de tarefas na fazenda" novalidate>
+          <h3>Cadastro de Tarefas</h3>
+          <label for="task-type">Tipo de Tarefa</label>
+          <select id="task-type" name="taskType" required aria-required="true">
+            <option value="" disabled selected>Selecione</option>
+            <option value="desbrota">Desbrota</option>
+            <option value="pulverizacao">Pulverização</option>
+            <option value="colheita">Colheita</option>
+            <option value="irrigacao">Irrigação</option>
+          </select>
+          <label for="task-plot">Quadra</label>
+          <select id="task-plot" name="taskPlot" required aria-required="true">
+            <!-- Opções preenchidas pelo script -->
+          </select>
+          <label for="task-responsible">Responsável</label>
+          <input id="task-responsible" name="taskResponsible" type="text" required aria-required="true" placeholder="Nome do responsável" />
+          <label for="task-deadline">Prazo</label>
+          <input id="task-deadline" name="taskDeadline" type="date" required aria-required="true" />
+          <label for="task-note">Observações</label>
+          <textarea id="task-note" name="taskNote" rows="3" placeholder="Adicione observações (opcional)"></textarea>
+          <button type="submit">Salvar Tarefa</button>
+        </form>
+
+        <!-- Lista de Tarefas -->
+        <section id="task-list" aria-label="Lista de tarefas cadastradas">
+          <h3>Tarefas</h3>
+          <table aria-describedby="task-list-desc">
+            <caption id="task-list-desc">Lista de tarefas cadastradas nas quadras.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Quadra</th>
+                <th scope="col">Responsável</th>
+                <th scope="col">Prazo</th>
+                <th scope="col">Observações</th>
+                <th scope="col">Progresso (%)</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tasks-tbody">
+              <!-- Itens inseridos via JavaScript -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Mapa Quadras -->
+        <section id="plots-section" aria-label="Mapa das quadras com progresso">
+          <h3>Visualização das Quadras</h3>
+          <div id="plots-map" role="list" aria-live="polite" aria-relevant="additions removals">
+            <!-- Quadras criadas pelo script -->
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Modal Atualização de Progresso -->
+    <div id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title" aria-hidden="true">
+      <div id="progress-modal-content">
+        <h3 id="progress-modal-title">Atualizar Progresso da Quadra</h3>
+        <form id="progress-form" novalidate>
+          <label for="progress-select">Progresso (%)</label>
+          <select id="progress-select" required>
+            <option value="" disabled selected>Selecione o progresso</option>
+            <option value="0">0%</option>
+            <option value="50">50%</option>
+            <option value="100">100%</option>
+          </select>
+          <label for="progress-username">Usuário</label>
+          <input id="progress-username" type="text" readonly />
+          <label for="progress-date">Data</label>
+          <input id="progress-date" type="text" readonly />
+          <div id="progress-modal-buttons">
+            <button type="submit" id="progress-save-button">Salvar</button>
+            <button type="button" id="progress-cancel-button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2024 Fazenda Incerpi - Todos os direitos reservados</p>
+    <div class="social-icons" aria-label="Redes sociais">
+      <a href="#" aria-label="Facebook" tabindex="0" title="Facebook" target="_blank" rel="noopener noreferrer">&#x1F426;</a>
+      <a href="#" aria-label="Instagram" tabindex="0" title="Instagram" target="_blank" rel="noopener noreferrer">&#x1F4F7;</a>
+    </div>
+  </footer>
+
+<script>
+  (() => {
+    "use strict";
+    // Smooth scroll reveal for gallery images
+    function onScrollReveal() {
+      const imgs = document.querySelectorAll('#gallery-grid img');
+      imgs.forEach(img => {
+        const rect = img.getBoundingClientRect();
+        if (rect.top <= window.innerHeight - 100) img.classList.add('visible');
+      });
+    }
+
+    // Populate gallery images
+    const galleryImages = [
+      'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1516528387618-afa9c3caf862?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1564501046824-7f52c94e6708?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1464153295769-d8d9f99e5e08?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+    ];
+    const galleryGrid = document.getElementById('gallery-grid');
+    galleryImages.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = "Imagem da Fazenda Incerpi";
+      img.loading = "lazy";
+      galleryGrid.appendChild(img);
+    });
+
+    window.addEventListener('scroll', onScrollReveal);
+    window.addEventListener('load', onScrollReveal);
+
+    /* Área Restrita - Usuários */
+    const users = [
+      { username: 'ADM', password: '123@123.com', role: 'Administrador' },
+      { username: 'EduardoIncerpi', password: '101878', role: 'Supervisor' },
+      { username: 'EllenIncerpi', password: '101823', role: 'Supervisor' },
+      { username: 'EdsonIncerpi', password: '07187', role: 'Supervisor' },
+      { username: 'Colaborador 1', password: '123', role: 'Colaborador' },
+      { username: 'Colaborador 2', password: '123', role: 'Colaborador' }
+    ];
+
+    // State & storage keys
+    const STORAGE_KEY_TASKS = 'incerpi_tasks';
+    let currentUser = null;
+    let tasks = [];
+
+    /* Elements */
+    const loginLink = document.getElementById('login-link');
+    const restrictedArea = document.getElementById('restricted-area');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const systemPanel = document.getElementById('system-panel');
+    const taskForm = document.getElementById('task-form');
+    const tasksTbody = document.getElementById('tasks-tbody');
+    const taskPlotSelect = document.getElementById('task-plot');
+    const plotsMap = document.getElementById('plots-map');
+    const progressModal = document.getElementById('progress-modal');
+    const progressForm = document.getElementById('progress-form');
+    const progressSelect = document.getElementById('progress-select');
+    const progressUsername = document.getElementById('progress-username');
+    const progressDate = document.getElementById('progress-date');
+    const progressCancelButton = document.getElementById('progress-cancel-button');
+
+    // Quadras sample data (could be extended)
+    const plots = [
+      { id: 'Q1', name: 'Quadra 1', progress: 0 },
+      { id: 'Q2', name: 'Quadra 2', progress: 50 },
+      { id: 'Q3', name: 'Quadra 3', progress: 100 },
+      { id: 'Q4', name: 'Quadra 4', progress: 0 },
+      { id: 'Q5', name: 'Quadra 5', progress: 50 },
+      { id: 'Q6', name: 'Quadra 6', progress: 100 }
+    ];
+
+    // Initialize plot options select in form
+    function populatePlotOptions() {
+      taskPlotSelect.innerHTML = '<option value="" disabled selected>Selecione a quadra</option>';
+      plots.forEach(plot => {
+        const option = document.createElement('option');
+        option.value = plot.id;
+        option.textContent = plot.name;
+        taskPlotSelect.appendChild(option);
+      });
+    }
+
+    // Render plots map with colors by progress
+    function renderPlots() {
+      plotsMap.innerHTML = '';
+      plots.forEach(plot => {
+        const div = document.createElement('div');
+        div.classList.add('plot');
+        if (plot.progress === 0) div.classList.add('gray');
+        else if (plot.progress === 50) div.classList.add('orange');
+        else if (plot.progress === 100) div.classList.add('green');
+        div.textContent = plot.name;
+        div.tabIndex = 0;
+        div.setAttribute('role', 'listitem');
+        div.setAttribute('aria-label', `${plot.name}, progresso ${plot.progress} por cento.`);
+        div.dataset.plotId = plot.id;
+        div.addEventListener('click', () => openProgressModal(plot.id));
+        div.addEventListener('keypress', (e) => { if (e.key === 'Enter') openProgressModal(plot.id); });
+        plotsMap.appendChild(div);
+      });
+    }
+
+    // Save tasks to localStorage
+    function saveTasks() {
+      localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+    }
+
+    // Load tasks from localStorage
+    function loadTasks() {
+      const stored = localStorage.getItem(STORAGE_KEY_TASKS);
+      if (stored) tasks = JSON.parse(stored);
+      else tasks = [];
+    }
+
+    // Render tasks in table based on user role
+    function renderTasks() {
+      tasksTbody.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const tr = document.createElement('tr');
+        tr.tabIndex = 0;
+
+        tr.innerHTML = `
+          <td>${task.type}</td>
+          <td>${task.plotName}</td>
+          <td>${task.responsible}</td>
+          <td>${task.deadline}</td>
+          <td>${task.note || '-'}</td>
+          <td>${task.progress}%</td>
+          <td>
+            ${canEdit() ? `<button type="button" aria-label="Editar tarefa ${task.type}" data-index="${index}" class="edit-task">Editar</button>` : ''}
+            ${canEdit() || isAdmin() ? `<button type="button" aria-label="Excluir tarefa ${task.type}" data-index="${index}" class="delete-task">Excluir</button>`: ''}
+          </td>
+        `;
+        tasksTbody.appendChild(tr);
+      });
+
+      // Attach events to buttons
+      document.querySelectorAll('.delete-task').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const index = +e.target.dataset.index;
+          if (confirm(`Confirmar exclusão da tarefa: ${tasks[index].type} ?`)) {
+            tasks.splice(index, 1);
+            saveTasks();
+            renderTasks();
+            updatePlotsProgress();
+          }
+        });
+      });
+
+      document.querySelectorAll('.edit-task').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const index = +e.target.dataset.index;
+          populateFormForEdit(index);
+        });
+      });
+    }
+
+    // Form for editing a task
+    function populateFormForEdit(index) {
+      if (!canEdit()) return;
+      const t = tasks[index];
+      taskForm.taskType.value = t.type;
+      taskForm.taskPlot.value = t.plotId;
+      taskForm.taskResponsible.value = t.responsible;
+      taskForm.taskDeadline.value = t.deadline;
+      taskForm.taskNote.value = t.note || '';
+      taskForm.dataset.editIndex = index;
+      taskForm.querySelector('button[type=submit]').textContent = 'Atualizar Tarefa';
+      taskForm.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function canEdit() {
+      return currentUser && (currentUser.role === 'Administrador' || currentUser.role === 'Supervisor');
+    }
+
+    function isAdmin() {
+      return currentUser && currentUser.role === 'Administrador';
+    }
+
+    // Clear form after save/cancel
+    function clearTaskForm() {
+      taskForm.reset();
+      delete taskForm.dataset.editIndex;
+      taskForm.querySelector('button[type=submit]').textContent = 'Salvar Tarefa';
+    }
+
+    // Update plots progress based on tasks (max progress per plot)
+    function updatePlotsProgress() {
+      // Reset progress to 0 initially
+      plots.forEach(p => p.progress = 0);
+      tasks.forEach(t => {
+        const plot = plots.find(p => p.id === t.plotId);
+        if (plot) {
+          if (t.progress > plot.progress) plot.progress = t.progress;
+        }
+      });
+      renderPlots();
+    }
+
+    // Open progress modal for selected plot
+    let activePlotId = null;
+    function openProgressModal(plotId) {
+      activePlotId = plotId;
+      const plot = plots.find(p => p.id === plotId);
+      if (!plot) return;
+      progressSelect.value = plot.progress.toString();
+      progressUsername.value = currentUser.username;
+      progressDate.value = new Date().toLocaleString();
+      progressModal.classList.add('active');
+      progressModal.setAttribute('aria-hidden', 'false');
+      progressSelect.focus();
+    }
+
+    // Close progress modal
+    function closeProgressModal() {
+      activePlotId = null;
+      progressModal.classList.remove('active');
+      progressModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Update plot progress on modal save
+    function saveProgress() {
+      if (!activePlotId) return;
+      const plot = plots.find(p => p.id === activePlotId);
+      if (!plot) return;
+      const newProgress = parseInt(progressSelect.value);
+      plot.progress = newProgress;
+
+      // Also update tasks that belong to this plot with new progress
+      tasks.forEach(t => {
+        if(t.plotId === activePlotId) t.progress = newProgress;
+      });
+      saveTasks();
+      renderTasks();
+      renderPlots();
+      closeProgressModal();
+    }
+
+    // Login form submit event
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value.trim();
+
+      const user = users.find(u => u.username === username && u.password === password);
+      if (!user) {
+        loginError.style.display = 'block';
+        loginError.textContent = 'Usuário ou senha incorretos!';
+        return;
+      }
+      loginError.style.display = 'none';
+      currentUser = user;
+      restrictedArea.classList.add('active');
+      systemPanel.classList.add('active');
+      loginForm.style.display = 'none';
+      loginLink.style.display = 'none';
+
+      // Initialize data and UI
+      populatePlotOptions();
+      loadTasks();
+      renderTasks();
+      renderPlots();
+
+      // After login, show welcome alert briefly
+      alert(`Bem-vindo, ${currentUser.username} (${currentUser.role})`);
+    });
+
+    // Handle task form submit
+    taskForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      // Validate progress based on role (Colaborador has only create/read)
+      const progressDefault = currentUser.role === 'Colaborador' ? 0 : 0;
+
+      const taskType = taskForm.taskType.value;
+      const plotId = taskForm.taskPlot.value;
+      const responsible = taskForm.taskResponsible.value.trim();
+      const deadline = taskForm.taskDeadline.value;
+      const note = taskForm.taskNote.value.trim();
+
+      if (!taskType || !plotId || !responsible || !deadline) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+      const plot = plots.find(p => p.id === plotId);
+      if (!plot) {
+        alert('Quadra inválida.');
+        return;
+      }
+      const plotName = plot.name;
+
+      const taskData = {
+        type: taskType,
+        plotId,
+        plotName,
+        responsible,
+        deadline,
+        note,
+        progress: progressDefault,
+        createdBy: currentUser.username,
+        createdAt: new Date().toISOString()
+      };
+
+      // If editing an existing task
+      const editIndex = taskForm.dataset.editIndex;
+      if (editIndex !== undefined) {
+        if (!canEdit()) {
+          alert('Você não tem permissão para editar tarefas.');
+          clearTaskForm();
+          return;
+        }
+        tasks[editIndex] = {...tasks[editIndex], ...taskData};
+      } else {
+        // Creating new task: Colaboradores can create only (allowed)
+        tasks.push(taskData);
+      }
+
+      saveTasks();
+      renderTasks();
+      updatePlotsProgress();
+      clearTaskForm();
+    });
+
+    // Modal form submit
+    progressForm.addEventListener('submit', e => {
+      e.preventDefault();
+      saveProgress();
+    });
+
+    // Modal cancel button
+    progressCancelButton.addEventListener('click', () => {
+      closeProgressModal();
+    });
+
+    // Login link click scroll to login area and show login form
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      restrictedArea.classList.add('active');
+      loginForm.style.display = 'flex';
+      systemPanel.classList.remove('active');
+      loginForm.username.focus();
+      window.scrollTo({ top: restrictedArea.offsetTop, behavior: 'smooth' });
+    });
+
+    // Accessibility: close modal on Escape
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && progressModal.classList.contains('active')) {
+        closeProgressModal();
+      }
+    });
+
+  })();
+</script>
+
+</body>
+</html>
+
